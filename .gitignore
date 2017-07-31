@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/App/.vs
+/.vs
+/Backend/.vs
+/Backend/FacePic.Service/bin
+/Backend/FacePic.Service/obj/Debug
+/Backend/packages
+/Common/Acquaint.ModelContracts/bin/Debug
+/Common/Acquaint.ModelContracts/obj/Debug
+/Common/FacePic.ModelContracts/bin/Debug
+/Common/FacePic.ModelContracts/obj/Debug
