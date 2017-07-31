@@ -41,9 +41,9 @@ namespace Acquaint.Util
 		#region user-configurable
 
 		private const string AzureAppServiceUrlKey = "AzureAppServiceUrl_key";
-		private static readonly string AzureAppServiceUrlDefault = "http://localhost:20280";
+        private static readonly string AzureAppServiceUrlDefault = "http://localhost:20280/"; //"http://facepicservice20170731103736.azurewebsites.net/"; 
 
-		private const string DataPartitionPhraseKey = "DataPartitionPhrase_key";
+        private const string DataPartitionPhraseKey = "DataPartitionPhrase_key";
 		private static readonly string DataSeedPhraseDefault = "the cow jumped over the moon";
 
 		private const string ImageCacheDurationHoursKey = "ImageCacheDurationHours_key";

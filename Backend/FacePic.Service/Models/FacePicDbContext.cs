@@ -22,7 +22,10 @@ namespace Acquaint.Service.Models
             Database.SetInitializer(new CreateDatabaseIfNotExists<FacePicDbContext>());
         } 
 
-        public DbSet<Client> Acquaintances { get; set; }
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

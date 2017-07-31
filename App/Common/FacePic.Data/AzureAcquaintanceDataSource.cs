@@ -29,7 +29,7 @@ namespace Acquaint.Data
 
 		SyncHandler _SyncHandler;
 
-        IMobileServiceSyncTable<Client> _AcquaintanceTable;
+        IMobileServiceSyncTable<Client> _clientTable;
         IMobileServiceSyncTable<Notification> _notificationTable;
 
         MobileServiceSQLiteStore _MobileServiceSQLiteStore;
@@ -38,7 +38,7 @@ namespace Acquaint.Data
 
 		string _DataPartitionId => GuidUtility.Create("the cow jumped over the moon").ToString().ToUpper();
 
-        const string _LocalDbName = "clients.db";
+        const string _LocalDbName = "clients2.db";
 
 		/// <summary>
 		/// An event that is fired when a data sync error occurs.
@@ -64,7 +64,7 @@ namespace Acquaint.Data
             return await Execute<IEnumerable<Client>>(async () =>
             {
                 await SyncItemsAsync().ConfigureAwait(false);
-                return await _AcquaintanceTable.Where(x => x.DataPartitionId == _DataPartitionId).OrderBy(x => x.LastName).ToEnumerableAsync().ConfigureAwait(false);
+                return await _clientTable.Where(x => x.DataPartitionId == _DataPartitionId).OrderBy(x => x.LastName).ToEnumerableAsync().ConfigureAwait(false);
             }, new List<Client>()).ConfigureAwait(false);
         }
 
@@ -82,7 +82,7 @@ namespace Acquaint.Data
             return await Execute<Client>(async () =>
             {
                 await SyncItemsAsync().ConfigureAwait(false);
-                return await _AcquaintanceTable.LookupAsync(id).ConfigureAwait(false);
+                return await _clientTable.LookupAsync(id).ConfigureAwait(false);
             }, null).ConfigureAwait(false);
         }
 
@@ -93,7 +93,7 @@ namespace Acquaint.Data
                 item.DataPartitionId = _DataPartitionId;
 
                 await Initialize().ConfigureAwait(false);
-                await _AcquaintanceTable.InsertAsync(item).ConfigureAwait(false);
+                await _clientTable.InsertAsync(item).ConfigureAwait(false);
                 await SyncItemsAsync().ConfigureAwait(false);
                 return true;
             }, false).ConfigureAwait(false);
@@ -104,7 +104,7 @@ namespace Acquaint.Data
             return await Execute<bool>(async () =>
             {
                 await Initialize().ConfigureAwait(false);
-                await _AcquaintanceTable.UpdateAsync(item).ConfigureAwait(false);
+                await _clientTable.UpdateAsync(item).ConfigureAwait(false);
                 await SyncItemsAsync().ConfigureAwait(false);
                 return true;
             }, false).ConfigureAwait(false);
@@ -115,7 +115,7 @@ namespace Acquaint.Data
             return await Execute<bool>(async () =>
             {
                 await Initialize().ConfigureAwait(false);
-                await _AcquaintanceTable.DeleteAsync(item).ConfigureAwait(false);
+                await _clientTable.DeleteAsync(item).ConfigureAwait(false);
                 await SyncItemsAsync().ConfigureAwait(false);
                 return true;
             }, false).ConfigureAwait(false);
@@ -144,7 +144,7 @@ namespace Acquaint.Data
                 _MobileServiceSQLiteStore.DefineTable<Client>();
                 _MobileServiceSQLiteStore.DefineTable<Notification>();
 
-                _AcquaintanceTable = _MobileService.GetSyncTable<Client>();
+                _clientTable = _MobileService.GetSyncTable<Client>();
                 _notificationTable = _MobileService.GetSyncTable<Notification>();
 
                 _SyncHandler = new SyncHandler();
@@ -175,7 +175,7 @@ namespace Acquaint.Data
                 await Initialize().ConfigureAwait(false);
                 await EnsureDataIsSeededAsync().ConfigureAwait(false);
 				// PushAsync() has been omitted here because the _MobileService.SyncContext automatically calls PushAsync() before PullAsync() if it sees pending changes in the context. (Frequently misunderstood feature of the Azure App Service SDK)
-                await _AcquaintanceTable.PullAsync($"getAll{typeof(Client).Name}", _AcquaintanceTable.Where(x => x.DataPartitionId == _DataPartitionId)).ConfigureAwait(false);
+                await _clientTable.PullAsync($"getAll{typeof(Client).Name}", _clientTable.Where(x => x.DataPartitionId == _DataPartitionId)).ConfigureAwait(false);
                 await _notificationTable.PullAsync($"getAll{typeof(Notification).Name}", _notificationTable.Where(x => x.DataPartitionId == _DataPartitionId)).ConfigureAwait(false);
 
                 return true;
@@ -190,9 +190,9 @@ namespace Acquaint.Data
             if (Settings.DataIsSeeded)
                 return;
 
-            await _AcquaintanceTable.PullAsync($"getAll{typeof(Client).Name}", _AcquaintanceTable.Where(x => x.DataPartitionId == _DataPartitionId)).ConfigureAwait(false);
+            _clientTable.PullAsync($"getAll{typeof(Client).Name}", _clientTable.Where(x => x.DataPartitionId == _DataPartitionId)); //.ConfigureAwait(false);
 
-            var any = (await _AcquaintanceTable.Where(x => x.DataPartitionId == _DataPartitionId).OrderBy(x => x.LastName).ToEnumerableAsync().ConfigureAwait(false)).Any();
+            var any = (await _clientTable.Where(x => x.DataPartitionId == _DataPartitionId).OrderBy(x => x.LastName).ToEnumerableAsync().ConfigureAwait(false)).Any();
 
             if (any)
                 Settings.DataIsSeeded = true;
@@ -204,7 +204,7 @@ namespace Acquaint.Data
 
                 foreach (var i in newItems)
                 {
-                    await _AcquaintanceTable.InsertAsync(i);
+                    await _clientTable.InsertAsync(i);
                 }
 
                 Settings.DataIsSeeded = true;
@@ -216,7 +216,7 @@ namespace Acquaint.Data
         /// </summary>
         async Task ResetLocalStoreAsync()
         {
-            _AcquaintanceTable = null;
+            _clientTable = null;
             _notificationTable = null;
 
             // On UWP, it's necessary to Dispose() and nullify the MobileServiceSQLiteStore before 

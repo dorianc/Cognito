@@ -20,33 +20,33 @@ namespace Acquaint.Service.Controllers
             DomainManager = new EntityDomainManager<Client>(_DataContext, Request, enableSoftDelete: true);
         }
 
-        // GET tables/Acquaintance/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public IQueryable<Client> GetAllAcquaintances()
+        // GET tables/Client/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        public IQueryable<Client> GetAllClients()
         {
             return Query();
         }
 
-        // GET tables/Acquaintance/3BF73C70-1DEE-47DC-8150-3A9BF368F01E
-        public SingleResult<Client> GetAcquaintance(string id)
+        // GET tables/Client/3BF73C70-1DEE-47DC-8150-3A9BF368F01E
+        public SingleResult<Client> GetClient(string id)
         {
             return Lookup(id);
         }
 
-        // PATCH tables/Acquaintance/3BF73C70-1DEE-47DC-8150-3A9BF368F01E
-        public async Task<Client> PatchAcquaintance(string id, Delta<Client> patch)
+        // PATCH tables/Client/3BF73C70-1DEE-47DC-8150-3A9BF368F01E
+        public async Task<Client> PatchClient(string id, Delta<Client> patch)
         {
             return await UpdateAsync(id, patch);
         }
 
-        // POST tables/Acquaintance
-        public async Task<IHttpActionResult> PostAcquaintance(Client item)
+        // POST tables/Client
+        public async Task<IHttpActionResult> PostClient(Client item)
         {
             Client current = await InsertAsync(item);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
-        // DELETE tables/Acquaintance/3BF73C70-1DEE-47DC-8150-3A9BF368F01E
-        public async Task DeleteAcquaintance(string id)
+        // DELETE tables/Client/3BF73C70-1DEE-47DC-8150-3A9BF368F01E
+        public async Task DeleteClient(string id)
         {
             await DeleteAsync(id);
         }
