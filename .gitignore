@@ -12,3 +12,10 @@
 /Common/Acquaint.ModelContracts/obj/Debug
 /Common/FacePic.ModelContracts/bin/Debug
 /Common/FacePic.ModelContracts/obj/Debug
+*.user
+/App/Common/FacePic.Abstractions/bin/Debug
+/App/Common/FacePic.Abstractions/obj/Debug
+/App/Keystores
+/App/packages
+/App/FacePic.XForms/FacePic.XForms/bin/Debug
+/App/FacePic.XForms/FacePic.XForms/obj/Debug

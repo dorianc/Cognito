@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             x:Class="Acquaint.XForms.AcquaintanceEditPage">
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveAcquaintanceCommand}" />
+	</ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<ContentView x:Name="TopContentView">
+			<ContentView.Padding>
+				<OnPlatform x:TypeArguments="Thickness" WinPhone="10" />
+			</ContentView.Padding>
+			<ContentView.Content>
+                <StackLayout Spacing="10">
+                    <ContentView Margin="3" HeightRequest="70">
+                        <ffimageloading:CachedImage x:Name="ContactAvatar" HorizontalOptions="Center" VerticalOptions="Start" WidthRequest="50" HeightRequest="50" DownsampleToViewSize="true" Source="{Binding SmallPhotoUrl}" LoadingPlaceholder="placeholderProfileImage.png">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                    </ContentView>
+                    <TableView Intent="Settings" BackgroundColor="White">
+					    <TableRoot>
+						    <TableSection Title="Name">
+							    <EntryCell Label="First" Text="{Binding Acquaintance.FirstName}" Keyboard="Text" />
+							    <EntryCell Label="Last" Text="{Binding Acquaintance.LastName}" Keyboard="Text" />
+						    </TableSection>
+						    <TableSection Title="Employment">
+							    <EntryCell Label="Company" Text="{Binding Acquaintance.Company}" Keyboard="Text" />
+							    <EntryCell Label="Title" Text="{Binding Acquaintance.JobTitle}" Keyboard="Text" />
+						    </TableSection>
+                            <TableSection Title="Contact">
+                                <EntryCell Label="Phone" Text="{Binding Acquaintance.Phone}" Keyboard="Telephone" />
+                                <EntryCell Label="Email" Text="{Binding Acquaintance.Email}" Keyboard="Email" />
+                            </TableSection>
+                        </TableRoot>
+				    </TableView>
+                </StackLayout>
+            </ContentView.Content>
+		</ContentView>
+	</ContentPage.Content>
+</ContentPage>
