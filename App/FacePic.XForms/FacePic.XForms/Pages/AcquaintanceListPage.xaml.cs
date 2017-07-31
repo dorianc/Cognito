@@ -2,13 +2,13 @@
 using Xamarin.Forms;
 using Acquaint.Util;
 using Acquaint.Models;
+using System.Threading.Tasks;
 
 namespace Acquaint.XForms
 {
 	public partial class AcquaintanceListPage : ContentPage
 	{
 		protected AcquaintanceListViewModel ViewModel => BindingContext as AcquaintanceListViewModel;
-
 		public AcquaintanceListPage()
 		{
 			InitializeComponent();
@@ -25,14 +25,23 @@ namespace Acquaint.XForms
 		    {
 		        ToolbarItems.Remove(refreshToolbarItem);
 		    }
+
+            //Device.StartTimer(new TimeSpan(0, 0, 0, 0, 500), TimerElapsed);
 		}
 
-		/// <summary>
-		/// The action to take when a list item is tapped.
-		/// </summary>
-		/// <param name="sender"> The sender.</param>
-		/// <param name="e">The ItemTappedEventArgs</param>
-		void ItemTapped(object sender, ItemTappedEventArgs e)
+        private bool TimerElapsed()
+        {
+            ViewModel.ExecuteLoadAcquaintancesCommand();
+
+            return true;
+        }
+
+        /// <summary>
+        /// The action to take when a list item is tapped.
+        /// </summary>
+        /// <param name="sender"> The sender.</param>
+        /// <param name="e">The ItemTappedEventArgs</param>
+        void ItemTapped(object sender, ItemTappedEventArgs e)
 		{
 			Navigation.PushAsync(new AcquaintanceDetailPage() { BindingContext = new AcquaintanceDetailViewModel((Client)e.Item) });
 
